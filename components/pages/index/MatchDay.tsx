@@ -33,7 +33,7 @@ export default function MatchDay({day, gameData, matchData, teams}: Props): Reac
     return <motion.div variants={container} initial={'hidden'} animate={'show'}>
         <SectionHeader title={'Spieltag ' + day} lessSpacing center />
 
-        {relvantMatches.map((match) => <motion.div key={match.date} variants={item}>
+        {relvantMatches.map((match, idx) => <motion.div key={match.date + idx} variants={item}>
             <Match match={match}  teams={teams} gameData={gameData}/>
         </motion.div>)}
 

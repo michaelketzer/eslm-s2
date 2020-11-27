@@ -115,13 +115,33 @@ const loadedMatches: {[x: string]: LeagueMatch} = {};
 const sortFn = ({playerIndex: a}, {playerIndex: b}) => a - b;
 
 export async function parseGames(): Promise<Stats> {
+    try {
+        await fs.access('./data/gamedata.json');
+        const gameData = await fs.readFile('./data/gamedata.json', 'utf8');
+        return JSONbig.parse(gameData) as Stats;
+    } catch(e) {
+        
+    }
+    /*
+    let statsData = '';
+    try {
+        await fs.access('./data/gamedata.json');
+        statsData = await fs.readFile('./data/gamedata.json', 'utf8');
+    } catch(e) {
+        
+    }
+    */
+
     const filenames = await fs.readdir('./data/matchDetails/');
     const stats: Stats = {
         matches: {},
         teams: {},
     };
+    /*
+    const stats: Stats = JSONbig.parse(statsData);
+   */
     
-    for(const filename of filenames) {
+    for(const filename of filenames.splice(60)) {
         if(filename.endsWith('.DS_Store')) {
             continue;
         }
@@ -184,6 +204,8 @@ export async function parseGames(): Promise<Stats> {
             pointsB: data.players.reduce((acc, {isRadiant, numDeaths}) => acc + (isRadiant ? numDeaths : 0), 0),
         }
     }
+
+    await fs.writeFile('./data/gamedata.json', JSONbig.stringify(stats));
 
     return stats;
 }
