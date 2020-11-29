@@ -336,3 +336,54 @@ export function playerTopHeroesForTeam(matches: GroupMatch[], teamId: number): P
         return acc;
     }, {});
 }
+
+export interface HeroListStats {
+    id: number;
+    picks: number;
+    wins: number;
+}
+
+interface HeroMapStats {
+    [x: number]: HeroListStats;
+}
+
+export async function overallHeroStats(): Promise<HeroListStats[]> {
+    const gameData = await fs.readFile('./data/gamedata.json', 'utf8');
+    const {matches} = JSONbig.parse(gameData) as Stats;
+    const statsData: HeroMapStats = {};
+
+    for(const match of Object.values(matches)) {
+        const teamAWon = match.radiantTeamId === match.winner;
+        for(const hero of match.teamA) {
+            if(!statsData[hero]) {
+                statsData[hero] = {
+                    id: hero,
+                    picks: 0,
+                    wins: 0,
+                }
+            }
+
+            statsData[hero].picks += 1;
+            if(teamAWon) {
+                statsData[hero].wins += 1;
+            }
+        } 
+
+        for(const hero of match.teamB) {
+            if(!statsData[hero]) {
+                statsData[hero] = {
+                    id: hero,
+                    picks: 0,
+                    wins: 0,
+                }
+            }
+
+            statsData[hero].picks += 1;
+            if(!teamAWon) {
+                statsData[hero].wins += 1;
+            }
+        } 
+    }
+
+    return Object.values(statsData);
+}

@@ -5,6 +5,7 @@ import Groups from '../components/pages/index/Groups';
 import PageHeader from '../components/pages/index/Header';
 import MatchDays from '../components/pages/index/MatchDays';
 import QuestionRounds from '../components/pages/index/QuestionRounds';
+import ViewHeroes from '../components/pages/index/ViewHeroes';
 
 //#region <interfaces>
 export interface TeamPlayer {
@@ -48,6 +49,7 @@ export interface GroupMatch {
 
 const Home = ({teamsData: {teams}, matchData, gameData}: {teamsData: TeamsData; matchData:GroupMatch[]; gameData: Stats}) => {
   return <PageFrame>
+    <ViewHeroes />
     <PageHeader />
     <Groups teams={teams} gameData={gameData}/>
     <MatchDays matchData={matchData} teams={teams} gameData={gameData}/>
