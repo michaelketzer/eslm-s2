@@ -6,7 +6,7 @@ export default function ViewHeroes(): ReactElement {
     return <>
         <Link href="/heroes">
             <div className={'btn'}>
-                Heroe Stats
+                Hero Stats
             </div>
         </Link>
 
