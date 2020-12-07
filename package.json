@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "dayjs": "^1.9.6",
+    "dayjs": "^1.9.7",
     "framer-motion": "^2.9.4",
     "fs": "^0.0.1-security",
     "json-bigint": "^1.0.0",
